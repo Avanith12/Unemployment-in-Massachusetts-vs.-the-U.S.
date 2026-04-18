@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Massachusetts Labor Force Story</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-glow"></div>
+  <main class="story" id="story">
+    <header class="hero reveal">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <p class="eyebrow">Massachusetts Labor Story</p>
+          <h1 id="heading"></h1>
+          <h2 id="subheading"></h2>
+        </div>
+        <img
+          class="hero-gif"
+          src="broke.gif"
+          alt="Empty wallet reaction gif"
+        />
+      </div>
+    </header>
+
+    <section class="chart-card reveal" data-animate-chart="main">
+      <h3 class="chart-title">Unemployment Rate: Massachusetts vs. United States</h3>
+      <div id="chart-main" aria-label="Unemployment comparison chart"></div>
+    </section>
+
+    <section class="chart-card reveal" data-animate-chart="map">
+      <h3 class="chart-title">Massachusetts in National Context</h3>
+      <div id="chart-map" aria-label="Map of the U.S. highlighting Massachusetts"></div>
+    </section>
+
+    <section class="chart-card reveal" data-animate-chart="gap">
+      <h3 class="chart-title">Unemployment Gap: Massachusetts minus U.S.</h3>
+      <div id="chart-gap" aria-label="Unemployment gap chart"></div>
+    </section>
+
+    <section class="inpage-message reveal" aria-live="polite">
+      <p>
+        The gap spikes during the early pandemic shock, then shrinks through 2021-2024. Recent months show Massachusetts still modestly above the national rate.
+      </p>
+    </section>
+
+    <section class="chart-card reveal" data-animate-chart="recovery">
+      <h3 class="chart-title">Recovery Slope: Peak to Latest</h3>
+      <div id="chart-recovery" aria-label="Recovery slope chart"></div>
+    </section>
+
+    <section class="inpage-message reveal" aria-live="polite">
+      <p>
+        From the pandemic peak to the latest month, both Massachusetts and the U.S. improved sharply, but Massachusetts remains higher.
+      </p>
+    </section>
+
+    <section class="chart-card reveal" data-animate-chart="yearly-gap">
+      <h3 class="chart-title">Yearly Average Gap (MA minus U.S.)</h3>
+      <div id="chart-yearly-gap" aria-label="Yearly average unemployment gap bars"></div>
+    </section>
+
+    <section class="inpage-message reveal" aria-live="polite">
+      <p>
+        Annual averages show the widest separation in 2020, followed by a sustained narrowing that does not fully close.
+      </p>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
