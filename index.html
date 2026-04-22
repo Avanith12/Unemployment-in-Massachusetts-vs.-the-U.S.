@@ -26,6 +26,29 @@
       </div>
     </header>
 
+    <section class="kpi-strip reveal" aria-label="Key unemployment indicators">
+      <article class="kpi-item" data-kpi-key="peak-ma" role="button" tabindex="0" aria-label="Explain Peak MA">
+        <h4>Peak MA</h4>
+        <p id="kpi-peak-ma">--</p>
+      </article>
+      <article class="kpi-item" data-kpi-key="latest-ma" role="button" tabindex="0" aria-label="Explain Latest MA">
+        <h4>Latest MA</h4>
+        <p id="kpi-latest-ma">--</p>
+      </article>
+      <article class="kpi-item" data-kpi-key="latest-us" role="button" tabindex="0" aria-label="Explain Latest U.S.">
+        <h4>Latest U.S.</h4>
+        <p id="kpi-latest-us">--</p>
+      </article>
+      <article class="kpi-item" data-kpi-key="current-gap" role="button" tabindex="0" aria-label="Explain Current Gap">
+        <h4>Current Gap</h4>
+        <p id="kpi-current-gap">--</p>
+      </article>
+      <article class="kpi-item" data-kpi-key="net-improvement" role="button" tabindex="0" aria-label="Explain Net Improvement">
+        <h4>Net Improvement</h4>
+        <p id="kpi-net-improvement">--</p>
+      </article>
+    </section>
+
     <section class="chart-card reveal" data-animate-chart="main">
       <h3 class="chart-title">Unemployment Rate: Massachusetts vs. United States</h3>
       <div id="chart-main" aria-label="Unemployment comparison chart"></div>
@@ -68,7 +91,51 @@
         Annual averages show the widest separation in 2020, followed by a sustained narrowing that does not fully close.
       </p>
     </section>
+
+    <section class="chart-card reveal" data-animate-chart="participation">
+      <h3 class="chart-title">Labor Force Participation: Massachusetts vs. U.S.</h3>
+      <div id="chart-participation" aria-label="Labor force participation comparison chart"></div>
+    </section>
+
+    <section class="inpage-message reveal" aria-live="polite">
+      <p>
+        Participation rebounded after the pandemic collapse, but month-to-month movement still reflects an uneven labor return.
+      </p>
+    </section>
+
+    <section class="chart-card reveal" data-animate-chart="mom-change">
+      <h3 class="chart-title">Monthly Change in MA Unemployment (MoM)</h3>
+      <div id="chart-mom-change" aria-label="Monthly change in Massachusetts unemployment rate"></div>
+    </section>
+
+    <section class="inpage-message reveal" aria-live="polite">
+      <p>
+        The recovery path is not smooth: monthly changes alternate between small gains and setbacks rather than a straight decline.
+      </p>
+    </section>
+
+    <section class="takeaway-panel reveal" aria-label="Final takeaway">
+      <h3>Final Takeaway</h3>
+      <ul>
+        <li>Massachusetts experienced a severe 2020 labor shock, then recovered substantially over the following years.</li>
+        <li>The unemployment gap versus the U.S. narrowed after the peak, but recent data still shows Massachusetts slightly above national levels.</li>
+        <li>The story is not just crisis and recovery, but incomplete convergence.</li>
+      </ul>
+    </section>
+
+    <footer class="project-footer reveal" aria-label="Class project attribution">
+      <img src="cs617 logo.png" alt="CS617 Visualizing Boston logo" class="project-logo" />
+      <p class="project-slogan">Data tells the story. Design makes it felt.</p>
+    </footer>
   </main>
+
+  <div id="kpi-modal" class="kpi-modal" aria-hidden="true">
+    <div class="kpi-modal-card" role="dialog" aria-modal="true" aria-labelledby="kpi-modal-title">
+      <button id="kpi-modal-close" class="kpi-modal-close" aria-label="Close explanation">x</button>
+      <h3 id="kpi-modal-title"></h3>
+      <p id="kpi-modal-body"></p>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
