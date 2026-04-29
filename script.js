@@ -131,6 +131,25 @@ function parseData(rawText) {
   return data;
 }
 
+function addBigCallout(svg, { x, y, symbol, label, symbolColor, labelColor = "#ffffff" }) {
+  svg.append("text")
+    .attr("x", x)
+    .attr("y", y)
+    .attr("fill", symbolColor)
+    .attr("font-size", 40)
+    .attr("font-weight", 900)
+    .attr("opacity", 0.9)
+    .text(symbol);
+
+  svg.append("text")
+    .attr("x", x + 24)
+    .attr("y", y)
+    .attr("fill", labelColor)
+    .attr("font-size", 12)
+    .attr("font-weight", 700)
+    .text(label);
+}
+
 function renderKpis(data) {
   const peakPoint = data.reduce((a, b) => (b.ma > a.ma ? b : a), data[0]);
   const latestPoint = data[data.length - 1];
@@ -310,6 +329,18 @@ function drawMainChart(data) {
     .attr("font-size", 12)
     .attr("fill", "#ffffff")
     .text((d) => d.label);
+
+  const peakMa = data.reduce((a, b) => (b.ma > a.ma ? b : a), data[0]);
+  const peakX = x(peakMa.date);
+  const peakY = y(peakMa.ma);
+
+  addBigCallout(svg, {
+    x: peakX + 14,
+    y: peakY - 18,
+    symbol: "!",
+    label: "Peak shock",
+    symbolColor: palette.ma
+  });
 }
 
 function drawMassachusettsMap() {
@@ -342,6 +373,17 @@ function drawMassachusettsMap() {
         .datum(massachusetts)
         .attr("class", "ma-highlight")
         .attr("d", path);
+    }
+
+    const centroid = massachusetts ? path.centroid(massachusetts) : null;
+    if (centroid && Number.isFinite(centroid[0]) && Number.isFinite(centroid[1])) {
+      addBigCallout(svg, {
+        x: centroid[0] + 10,
+        y: centroid[1] - 10,
+        symbol: "*",
+        label: "Massachusetts focus",
+        symbolColor: palette.ma
+      });
     }
   });
 }
@@ -419,6 +461,14 @@ function drawGapChart(data) {
     .attr("font-size", 12)
     .attr("fill", "#ffffff")
     .text(`Largest gap: ${peakText}`);
+
+  addBigCallout(svg, {
+    x: x(peak.date) + 14,
+    y: y(peak.gap) - 28,
+    symbol: "!",
+    label: "Widest gap",
+    symbolColor: palette.gap
+  });
 
 }
 
@@ -512,6 +562,15 @@ function drawRecoverySlopeChart(data) {
     .attr("font-size", 12)
     .attr("fill", "#ffffff")
     .text((d) => `${d.series}: ${d.startValue.toFixed(1)}% -> ${d.endValue.toFixed(1)}%`);
+
+  const maSeries = endpointData[0];
+  addBigCallout(svg, {
+    x: x("Latest") + 10,
+    y: y(maSeries.endValue) - 10,
+    symbol: ">",
+    label: "Improved from peak",
+    symbolColor: palette.ma
+  });
 }
 
 function drawYearlyGapBars(data) {
@@ -585,6 +644,18 @@ function drawYearlyGapBars(data) {
     .attr("fill", "#ffffff")
     .attr("opacity", 0)
     .text((d) => `${d.avgGap > 0 ? "+" : ""}${d.avgGap.toFixed(1)}`);
+
+  const widestYear = yearly.reduce(
+    (a, b) => (Math.abs(b.avgGap) > Math.abs(a.avgGap) ? b : a),
+    yearly[0]
+  );
+  addBigCallout(svg, {
+    x: x(widestYear.year) + x.bandwidth() / 2 + 8,
+    y: y(widestYear.avgGap >= 0 ? widestYear.avgGap : 0) - 14,
+    symbol: "!",
+    label: "Largest yearly split",
+    symbolColor: palette.yearlyGap
+  });
 }
 
 function drawParticipationChart(data) {
@@ -645,6 +716,15 @@ function drawParticipationChart(data) {
     .attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(7).tickFormat((d) => `${d}%`).tickSizeOuter(0))
     .call((g) => g.select(".domain").remove());
+
+  const latest = data[data.length - 1];
+  addBigCallout(svg, {
+    x: x(latest.date) - 70,
+    y: y(latest.maParticipation) - 14,
+    symbol: "~",
+    label: "Participation recovery",
+    symbolColor: palette.us
+  });
 }
 
 function drawMonthlyMaChangeChart(data) {
@@ -705,6 +785,18 @@ function drawMonthlyMaChangeChart(data) {
     .attr("data-target-height", (d) => Math.abs(y(d.change) - y(0)))
     .attr("data-zero-y", y(0))
     .attr("fill", (d) => (d.change >= 0 ? palette.gap : palette.us));
+
+  const biggestMove = changes.reduce(
+    (a, b) => (Math.abs(b.change) > Math.abs(a.change) ? b : a),
+    changes[0]
+  );
+  addBigCallout(svg, {
+    x: x(biggestMove.date.getTime()) + x.bandwidth() / 2 + 8,
+    y: y(biggestMove.change >= 0 ? biggestMove.change : 0) - 12,
+    symbol: "!",
+    label: "Biggest monthly move",
+    symbolColor: palette.ma
+  });
 }
 
 function animatePathDraw(pathSelection, durationMs = 1400, delayMs = 0) {

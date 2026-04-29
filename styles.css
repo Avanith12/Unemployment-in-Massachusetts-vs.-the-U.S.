@@ -40,6 +40,16 @@ body {
   padding: 0 1rem;
 }
 
+.top-logo {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  width: min(120px, 20vw);
+  height: auto;
+  z-index: 30;
+  opacity: 0.95;
+}
+
 .hero,
 .chart-card {
   background: transparent;
@@ -269,30 +279,6 @@ svg {
   animation: caret-blink 700ms steps(1, end) infinite;
 }
 
-.project-footer {
-  margin: 22vh 0 6vh;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.project-logo {
-  width: min(320px, 72vw);
-  height: auto;
-  opacity: 0.95;
-}
-
-.project-slogan {
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-
 .takeaway-panel {
   margin: 16vh 0 12vh;
   border: 1px solid rgba(255, 79, 163, 0.45);
@@ -423,8 +409,10 @@ svg {
     margin: 16vh 0 12vh;
   }
 
-  .project-footer {
-    margin: 16vh 0 4vh;
+  .top-logo {
+    width: min(90px, 26vw);
+    top: 10px;
+    right: 10px;
   }
 
   .takeaway-panel {
