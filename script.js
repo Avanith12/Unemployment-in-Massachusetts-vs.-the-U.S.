@@ -7,8 +7,8 @@ const palette = {
   baseline: "#d9d9d9"
 };
 
-d3.select("#heading").text("From peak pain to partial recovery: Massachusetts vs. America.");
-d3.select("#subheading").text("");
+d3.select("#heading").text("Massachusetts Unemployment Remains Above U.S.");
+d3.select("#subheading").text("This story tracks monthly unemployment and labor force patterns from 2020 to 2026, showing recovery progress and the remaining gap.");
 
 const monthIndex = {
   January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,

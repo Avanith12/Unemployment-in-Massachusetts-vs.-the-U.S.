@@ -99,7 +99,8 @@ body {
   margin: 0.35rem 0 0.5rem;
   font-size: clamp(1.05rem, 2.2vw, 1.25rem);
   color: #ffffff;
-  display: none;
+  display: block;
+  max-width: 58ch;
 }
 
 #description {
