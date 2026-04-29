@@ -3,6 +3,8 @@
 This project is a scroll-based web data story about labor force and unemployment trends in Massachusetts compared with the United States.  
 It is built as an author-driven explanatory visualization using D3.js, with focus on storytelling, readable design, and animated chart reveals.
 
+![Project preview](readme.png)
+
 ### Live Website
 
 [View Project Website](https://avanith12.github.io/Unemployment-in-Massachusetts-vs.-the-U.S./)
