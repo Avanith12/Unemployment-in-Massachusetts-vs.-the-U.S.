@@ -768,6 +768,35 @@ function drawParticipationChart(data) {
     .call(d3.axisLeft(y).ticks(7).tickFormat((d) => `${d}%`).tickSizeOuter(0))
     .call((g) => g.select(".domain").remove());
 
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - margin.right - 172}, ${margin.top + 8})`);
+
+  const legendItems = [
+    { label: "Massachusetts", color: palette.ma },
+    { label: "United States", color: palette.us }
+  ];
+
+  const legendRows = legend.selectAll("g")
+    .data(legendItems)
+    .join("g")
+    .attr("transform", (_, i) => `translate(0, ${i * 18})`);
+
+  legendRows.append("line")
+    .attr("x1", 0)
+    .attr("x2", 16)
+    .attr("y1", 8)
+    .attr("y2", 8)
+    .attr("stroke", (d) => d.color)
+    .attr("stroke-width", 3);
+
+  legendRows.append("text")
+    .attr("x", 22)
+    .attr("y", 8)
+    .attr("dominant-baseline", "middle")
+    .attr("font-size", 11.5)
+    .attr("fill", "#ffffff")
+    .text((d) => d.label);
+
   const latest = data[data.length - 1];
   addBigCallout(svg, {
     x: x(latest.date) - 70,
