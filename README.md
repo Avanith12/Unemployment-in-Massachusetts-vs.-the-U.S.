@@ -1,7 +1,8 @@
 ## Massachusetts Labor Story (2020-2026)
 
-This project is a scroll-based web data story about labor force and unemployment trends in Massachusetts compared with the United States.  
-It is built as an author-driven explanatory visualization using D3.js, with focus on storytelling, readable design, and animated chart reveals.
+An interactive, scroll-based data story showing how Massachusetts unemployment and labor-force conditions changed from the COVID shock through recent recovery, compared with the United States.
+
+Core message: **Massachusetts improved significantly after 2020, but unemployment still remains slightly above the U.S. in recent months.**
 
 ![Project preview](readme.png)
 
@@ -9,40 +10,49 @@ It is built as an author-driven explanatory visualization using D3.js, with focu
 
 [View Project Website](https://avanith12.github.io/Unemployment-in-Massachusetts-vs.-the-U.S./)
 
-### Project Focus
+### What This Project Analyzes
 
-- Track how Massachusetts unemployment changed from the pandemic shock through partial recovery
-- Compare Massachusetts against the national benchmark over time
-- Explain not just trend direction, but magnitude, timing, and remaining gap
+Using monthly data from 2020 to January 2026 (excluding October 2025 missing values), the story highlights:
 
-### Analysis Completed
+- Pandemic-era unemployment spike and post-shock recovery trend
+- Massachusetts vs U.S. unemployment comparison over time
+- MA-U.S. unemployment gap (monthly and yearly)
+- Peak-to-latest recovery slope for both MA and U.S.
+- Labor-force participation comparison (MA vs U.S.)
+- Month-over-month changes in Massachusetts unemployment
 
-Using monthly data from 2020 to January 2026 (excluding October 2025 missing values), the story shows:
+### Charts Included
 
-- **Pandemic shock and recovery:** unemployment spikes early, then declines over subsequent years
-- **Massachusetts vs U.S. comparison:** Massachusetts improves but remains slightly above the national rate in recent months
-- **Gap dynamics:** the MA-U.S. unemployment gap widens sharply in 2020, then narrows without fully closing
-- **Recovery slope view:** peak-to-latest comparison highlights large improvement for both MA and U.S.
-- **Yearly average gap view:** annual bars reinforce strongest separation in early period and later convergence
-- **Labor force participation comparison:** participation rebounds after the shock, with ongoing month-to-month fluctuation
-- **Monthly MA change (MoM):** recovery is uneven, with alternating gains and setbacks
+- Unemployment Rate: Massachusetts vs United States
+- Massachusetts in National Context (U.S. map)
+- Unemployment Gap: Massachusetts minus U.S.
+- Recovery Slope: Peak to Latest
+- Yearly Average Gap (MA minus U.S.)
+- Labor Force Participation: Massachusetts vs U.S.
+- Monthly Change in MA Unemployment (MoM)
 
-### Visual Story Structure
+### Interactive Features
 
-The webpage includes:
-
-- Hero message and visual framing
-- KPI strip (Peak MA, Latest MA, Latest U.S., Current Gap, Net Improvement)
-- Multiple animated charts triggered on scroll
-- In-page narrative messages with reveal/typewriter effects
-- Final takeaway panel and class project branding
+- Scroll-reveal chart animations (line draw + bar grow effects)
+- Narrative in-page story callouts between charts
+- KPI strip with modal explainers (Peak MA, Latest MA, Latest U.S., Current Gap, Net Improvement)
+- Big visual chart annotations/callouts for key moments
+- Custom cursor and neon black-theme styling
+- Top scroll progress bar
+- Audio ear-candy:
+  - welcome chime (after first user interaction, due to browser autoplay rules)
+  - chart-specific tones on reveal
+- End-screen experience:
+  - story completion overlay
+  - full-screen confetti celebration + sound
+  - automatic scroll back to top
 
 ### Tech Stack
 
 - HTML, CSS, JavaScript
-- D3.js (charts, scales, axes, transitions)
-- TopoJSON (U.S. map context)
+- D3.js (charts, transitions, scales, axes)
+- TopoJSON (U.S. map rendering)
 
 ### Data Source
 
-`massachusetts_unemployment.csv` in this repository.
+- `massachusetts_unemployment.csv` (included in this repository)
