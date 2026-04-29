@@ -368,6 +368,44 @@ svg {
   opacity: 0.2;
 }
 
+.party-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.party-overlay.is-active {
+  opacity: 1;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -14px;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.9;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+  animation: confetti-fall var(--fall-duration) ease-in var(--fall-delay) forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift-x), 112vh, 0) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
 @media (max-width: 920px) {
   .hero {
     min-height: 72vh;
@@ -423,7 +461,12 @@ svg {
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   #chart-main path,
-  #chart-gap path {
+  #chart-gap path,
+  .party-overlay {
     transition: none;
+  }
+
+  .confetti-piece {
+    animation: none;
   }
 }

@@ -18,6 +18,7 @@ const monthIndex = {
 let audioCtx = null;
 let hasPlayedWelcome = false;
 const playedChartSounds = new Set();
+let hasPlayedEndingParty = false;
 
 function ensureAudioContext() {
   if (!audioCtx) {
@@ -965,6 +966,62 @@ function setupTypewriterMessage() {
   typeObserver.observe(messageSection);
 }
 
+function launchEndingPartyAndScrollTop() {
+  if (hasPlayedEndingParty) return;
+  hasPlayedEndingParty = true;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!prefersReducedMotion) {
+    const overlay = document.createElement("div");
+    overlay.className = "party-overlay";
+    document.body.appendChild(overlay);
+
+    const colors = ["#ff4fa3", "#58e1ff", "#ffffff"];
+    const pieces = 90;
+    for (let i = 0; i < pieces; i += 1) {
+      const piece = document.createElement("span");
+      piece.className = "confetti-piece";
+      piece.style.left = `${Math.random() * 100}%`;
+      piece.style.backgroundColor = colors[i % colors.length];
+      piece.style.setProperty("--fall-duration", `${2.1 + Math.random() * 1.2}s`);
+      piece.style.setProperty("--fall-delay", `${Math.random() * 0.5}s`);
+      piece.style.setProperty("--drift-x", `${(Math.random() - 0.5) * 180}px`);
+      piece.style.setProperty("--spin", `${320 + Math.random() * 220}deg`);
+      overlay.appendChild(piece);
+    }
+
+    requestAnimationFrame(() => overlay.classList.add("is-active"));
+    window.setTimeout(() => overlay.remove(), 4300);
+  }
+
+  // Short celebration sound sequence when the ending blast starts.
+  playTone({ freq: 523.25, duration: 0.12, type: "triangle", volume: 0.04, delay: 0 });
+  playTone({ freq: 659.25, duration: 0.14, type: "triangle", volume: 0.04, delay: 0.1 });
+  playTone({ freq: 783.99, duration: 0.16, type: "triangle", volume: 0.042, delay: 0.22 });
+
+  window.setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }, prefersReducedMotion ? 900 : 2600);
+}
+
+function setupEndingPartyTrigger() {
+  const endingPanel = document.querySelector(".takeaway-panel");
+  if (!endingPanel) return;
+
+  const endingObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || hasPlayedEndingParty) return;
+        launchEndingPartyAndScrollTop();
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.9 }
+  );
+
+  endingObserver.observe(endingPanel);
+}
+
 d3.text("massachusetts_unemployment.csv")
   .then(parseData)
   .then((data) => {
@@ -980,6 +1037,7 @@ d3.text("massachusetts_unemployment.csv")
     drawMonthlyMaChangeChart(data);
     setupScrollAnimations();
     setupTypewriterMessage();
+    setupEndingPartyTrigger();
   })
   .catch((error) => {
     const storyRoot = document.getElementById("story");
