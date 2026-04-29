@@ -650,13 +650,63 @@ function drawYearlyGapBars(data) {
     (a, b) => (Math.abs(b.avgGap) > Math.abs(a.avgGap) ? b : a),
     yearly[0]
   );
-  addBigCallout(svg, {
-    x: x(widestYear.year) + x.bandwidth() / 2 + 8,
-    y: y(widestYear.avgGap >= 0 ? widestYear.avgGap : 0) - 14,
-    symbol: "!",
-    label: "Largest yearly split",
-    symbolColor: palette.yearlyGap
-  });
+  const widestX = x(widestYear.year) + x.bandwidth() / 2;
+  const widestY = y(widestYear.avgGap);
+  svg.append("circle")
+    .attr("cx", widestX)
+    .attr("cy", widestY)
+    .attr("r", 3.5)
+    .attr("fill", "#ffffff");
+
+  svg.append("text")
+    .attr("x", widestX + 10)
+    .attr("y", widestY - 12)
+    .attr("fill", "#ffffff")
+    .attr("font-size", 11.5)
+    .attr("font-weight", 700)
+    .text("Largest yearly split");
+
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - margin.right - 236}, ${margin.top + 8})`);
+
+  legend.append("rect")
+    .attr("x", -10)
+    .attr("y", -9)
+    .attr("width", 232)
+    .attr("height", 40)
+    .attr("rx", 8)
+    .attr("fill", "rgba(0, 0, 0, 0.45)")
+    .attr("stroke", "rgba(255, 255, 255, 0.18)");
+
+  legend.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", 11)
+    .attr("height", 11)
+    .attr("rx", 2)
+    .attr("fill", palette.yearlyGap);
+
+  legend.append("text")
+    .attr("x", 16)
+    .attr("y", 9)
+    .attr("fill", "#ffffff")
+    .attr("font-size", 11)
+    .text("Yearly gap bars (MA - U.S.)");
+
+  legend.append("line")
+    .attr("x1", 0)
+    .attr("x2", 11)
+    .attr("y1", 23)
+    .attr("y2", 23)
+    .attr("stroke", palette.baseline)
+    .attr("stroke-width", 2);
+
+  legend.append("text")
+    .attr("x", 16)
+    .attr("y", 26)
+    .attr("fill", "#ffffff")
+    .attr("font-size", 11)
+    .text("Zero line (MA = U.S.)");
 }
 
 function drawParticipationChart(data) {
