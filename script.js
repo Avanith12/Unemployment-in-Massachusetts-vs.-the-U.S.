@@ -970,7 +970,14 @@ function launchEndingPartyAndScrollTop() {
   if (hasPlayedEndingParty) return;
   hasPlayedEndingParty = true;
 
+  const endScreen = document.getElementById("end-screen");
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (endScreen) {
+    endScreen.setAttribute("aria-hidden", "false");
+    endScreen.classList.add("is-visible");
+  }
+
   if (!prefersReducedMotion) {
     const overlay = document.createElement("div");
     overlay.className = "party-overlay";
@@ -1000,8 +1007,12 @@ function launchEndingPartyAndScrollTop() {
   playTone({ freq: 783.99, duration: 0.16, type: "triangle", volume: 0.042, delay: 0.22 });
 
   window.setTimeout(() => {
+    if (endScreen) {
+      endScreen.classList.remove("is-visible");
+      endScreen.setAttribute("aria-hidden", "true");
+    }
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-  }, prefersReducedMotion ? 900 : 2600);
+  }, prefersReducedMotion ? 1400 : 3400);
 }
 
 function setupEndingPartyTrigger() {

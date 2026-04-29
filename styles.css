@@ -387,6 +387,46 @@ svg {
   opacity: 0.2;
 }
 
+.end-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 920;
+  transition: opacity 280ms ease;
+}
+
+.end-screen.is-visible {
+  opacity: 1;
+}
+
+.end-screen-card {
+  border: 1px solid rgba(255, 79, 163, 0.8);
+  border-radius: 14px;
+  background: rgba(8, 8, 8, 0.92);
+  padding: 1rem 1.2rem;
+  width: min(92vw, 520px);
+  text-align: center;
+  box-shadow: 0 0 18px rgba(255, 79, 163, 0.35);
+}
+
+.end-screen-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.25rem, 2.8vw, 1.8rem);
+  color: #ff4fa3;
+}
+
+.end-screen-card p {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 1.9vw, 1.05rem);
+}
+
 .party-overlay {
   position: fixed;
   inset: 0;
@@ -481,6 +521,7 @@ svg {
   .reveal,
   #chart-main path,
   #chart-gap path,
+  .end-screen,
   .party-overlay {
     transition: none;
   }
