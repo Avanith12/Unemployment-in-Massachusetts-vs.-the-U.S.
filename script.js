@@ -866,6 +866,57 @@ function drawMonthlyMaChangeChart(data) {
     .attr("data-zero-y", y(0))
     .attr("fill", (d) => (d.change >= 0 ? palette.gap : palette.us));
 
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - margin.right - 220}, ${margin.top + 8})`);
+
+  legend.append("rect")
+    .attr("x", -10)
+    .attr("y", -9)
+    .attr("width", 216)
+    .attr("height", 56)
+    .attr("rx", 8)
+    .attr("fill", "rgba(0, 0, 0, 0.45)")
+    .attr("stroke", "rgba(255, 255, 255, 0.18)");
+
+  const legendRows = [
+    { label: "Increase vs prior month", color: palette.gap, type: "bar" },
+    { label: "Decrease vs prior month", color: palette.us, type: "bar" },
+    { label: "No monthly change (0)", color: palette.baseline, type: "line" }
+  ];
+
+  const row = legend.selectAll("g")
+    .data(legendRows)
+    .join("g")
+    .attr("transform", (_, i) => `translate(0, ${i * 17})`);
+
+  row.each(function renderLegend(d) {
+    const g = d3.select(this);
+    if (d.type === "bar") {
+      g.append("rect")
+        .attr("x", 0)
+        .attr("y", 2)
+        .attr("width", 11)
+        .attr("height", 11)
+        .attr("rx", 2)
+        .attr("fill", d.color);
+    } else {
+      g.append("line")
+        .attr("x1", 0)
+        .attr("x2", 11)
+        .attr("y1", 8)
+        .attr("y2", 8)
+        .attr("stroke", d.color)
+        .attr("stroke-width", 2);
+    }
+  });
+
+  row.append("text")
+    .attr("x", 16)
+    .attr("y", 10)
+    .attr("fill", "#ffffff")
+    .attr("font-size", 11)
+    .text((d) => d.label);
+
   const biggestMove = changes.reduce(
     (a, b) => (Math.abs(b.change) > Math.abs(a.change) ? b : a),
     changes[0]
