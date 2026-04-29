@@ -1022,6 +1022,22 @@ function setupEndingPartyTrigger() {
   endingObserver.observe(endingPanel);
 }
 
+function setupScrollProgressBar() {
+  const progressFill = document.getElementById("scroll-progress-fill");
+  if (!progressFill) return;
+
+  const updateProgress = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    progressFill.style.width = `${progress.toFixed(2)}%`;
+  };
+
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
+}
+
 d3.text("massachusetts_unemployment.csv")
   .then(parseData)
   .then((data) => {
@@ -1038,6 +1054,7 @@ d3.text("massachusetts_unemployment.csv")
     setupScrollAnimations();
     setupTypewriterMessage();
     setupEndingPartyTrigger();
+    setupScrollProgressBar();
   })
   .catch((error) => {
     const storyRoot = document.getElementById("story");
