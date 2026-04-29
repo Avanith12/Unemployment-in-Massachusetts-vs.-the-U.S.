@@ -15,6 +15,91 @@ const monthIndex = {
   July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
 };
 
+let audioCtx = null;
+let hasPlayedWelcome = false;
+const playedChartSounds = new Set();
+
+function ensureAudioContext() {
+  if (!audioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    audioCtx = new AudioCtx();
+  }
+  return audioCtx;
+}
+
+function playTone({ freq = 440, duration = 0.12, type = "sine", volume = 0.04, delay = 0 }) {
+  const ctx = ensureAudioContext();
+  if (!ctx) return;
+  if (ctx.state === "suspended") return;
+
+  const now = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, now);
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(volume, now + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + duration + 0.02);
+}
+
+function playWelcomeSound() {
+  if (hasPlayedWelcome) return;
+  hasPlayedWelcome = true;
+  playTone({ freq: 392, duration: 0.14, type: "triangle", volume: 0.035, delay: 0 });
+  playTone({ freq: 523.25, duration: 0.18, type: "triangle", volume: 0.04, delay: 0.12 });
+  playTone({ freq: 659.25, duration: 0.2, type: "triangle", volume: 0.045, delay: 0.26 });
+}
+
+function playChartSound(chartKey) {
+  if (playedChartSounds.has(chartKey)) return;
+  playedChartSounds.add(chartKey);
+
+  const tonesByChart = {
+    main: 440,
+    map: 392,
+    gap: 330,
+    recovery: 494,
+    "yearly-gap": 523.25,
+    participation: 587.33,
+    "mom-change": 349.23
+  };
+
+  const base = tonesByChart[chartKey] || 440;
+  playTone({ freq: base, duration: 0.1, type: "sine", volume: 0.03, delay: 0 });
+  playTone({ freq: base * 1.25, duration: 0.12, type: "sine", volume: 0.028, delay: 0.08 });
+}
+
+function setupAudio() {
+  const unlockAudio = () => {
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+
+    if (ctx.state === "suspended") {
+      ctx.resume().then(() => {
+        playWelcomeSound();
+      }).catch(() => {});
+    } else {
+      playWelcomeSound();
+    }
+
+    window.removeEventListener("pointerdown", unlockAudio);
+    window.removeEventListener("keydown", unlockAudio);
+    window.removeEventListener("touchstart", unlockAudio);
+  };
+
+  window.addEventListener("pointerdown", unlockAudio, { passive: true });
+  window.addEventListener("keydown", unlockAudio, { passive: true });
+  window.addEventListener("touchstart", unlockAudio, { passive: true });
+}
+
 function parseData(rawText) {
   const lines = rawText.split(/\r?\n/);
   const headerIndex = lines.findIndex(
@@ -645,6 +730,8 @@ function animatePathDraw(pathSelection, durationMs = 1400, delayMs = 0) {
 }
 
 function playChartAnimation(chartKey) {
+  playChartSound(chartKey);
+
   if (chartKey === "main") {
     animatePathDraw(d3.select("#chart-main .line-ma"), 1500, 0);
     animatePathDraw(d3.select("#chart-main .line-us"), 1500, 160);
@@ -789,6 +876,7 @@ function setupTypewriterMessage() {
 d3.text("massachusetts_unemployment.csv")
   .then(parseData)
   .then((data) => {
+    setupAudio();
     renderKpis(data);
     setupKpiExplainers();
     drawMainChart(data);
