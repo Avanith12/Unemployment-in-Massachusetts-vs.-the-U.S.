@@ -322,6 +322,52 @@ svg {
   color: #ffffff;
 }
 
+.repo-link-section {
+  margin: 6vh 0 14vh;
+  display: flex;
+  justify-content: center;
+}
+
+.repo-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(255, 79, 163, 0.6);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.repo-link:hover,
+.repo-link:focus-visible {
+  transform: translateY(-1px);
+  border-color: #ff4fa3;
+  background: rgba(255, 79, 163, 0.12);
+  outline: none;
+}
+
+.repo-link svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: #ff4fa3;
+  flex-shrink: 0;
+}
+
+.repo-link span {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
 .inpage-message.reveal {
   opacity: 0;
   transform: translateY(36px) scale(0.985);
@@ -514,6 +560,14 @@ svg {
 
   .takeaway-panel {
     margin: 10vh 0 8vh;
+  }
+
+  .repo-link-section {
+    margin: 4vh 0 10vh;
+  }
+
+  .repo-links {
+    gap: 0.55rem;
   }
 }
 
