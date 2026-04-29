@@ -1,7 +1,8 @@
 const palette = {
-  ma: "#ffd166",
-  us: "#4cc9f0",
-  gap: "#ff6b6b",
+  ma: "#ff4fa3",
+  us: "#58e1ff",
+  gap: "#ff4fa3",
+  yearlyGap: "#ff4fa3",
   grid: "#9aa0a6",
   baseline: "#d9d9d9"
 };
@@ -486,7 +487,7 @@ function drawYearlyGapBars(data) {
     .attr("data-target-y", (d) => (d.avgGap >= 0 ? y(d.avgGap) : y(0)))
     .attr("data-target-height", (d) => Math.abs(y(d.avgGap) - y(0)))
     .attr("data-zero-y", zeroY)
-    .attr("fill", palette.gap);
+    .attr("fill", palette.yearlyGap);
 
   svg.selectAll(".yearly-gap-label")
     .data(yearly)
