@@ -5,6 +5,7 @@ An interactive, scroll-based data story showing how Massachusetts unemployment a
 Core message: **Massachusetts improved significantly after 2020, but unemployment still remains slightly above the U.S. in recent months.**
 
 ![Project preview](readme.png)
+![Story GIF](broke.gif)
 
 ### Live Website
 
